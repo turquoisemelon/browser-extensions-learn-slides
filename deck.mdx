@@ -1,11 +1,411 @@
 export { default as theme } from 'mdx-deck/themes'
 
-# This is the title of my deck
+# Extensions, Tiny Apps on Your Browser
+
+ ![twitter](images/twitter.png) [@trilingualmel](https://twitter.com/trilingualmel)
+
+ [//]: # (Icons made by Pixel perfect from www.flaticon.com is licensed by http://creativecommons.org/licenses/by/3.0/)
+
+```notes
+Hi, my name is Meltem. I’m a developer and Bridge grad. 
+Today, I’ll talk about Browser extensions and their inner workings. 
+After I give an overview of extension building, I'll demo an extension
+I built as a side project which brings over random cat gifs on your browser.
+```
 ---
-# About Me
+# 😻
+# Demo time
+
+```notes
+I will show you a fun extension side project I put together. 
+It's called catify extension and it displays random cat gifs right on your browser window anytime you want
+```
+---
+# What is a browser extension? 🤔
+
+```notes
+Probably pretty much everyone who uses the web uses browser extensions. 
+Let's start with a quick refresher of what browser extensions actually are. 
+Extensions are mostly small programs that customize the browsing experience.
+```
+---
+ ![extensions_showcase](https://duaw26jehqd4r.cloudfront.net/items/1W1q3m2d3g1o1o0L1z3l/Screen%20Recording%202018-10-20%20at%2011.31%20PM.gif)
+
+```notes
+They usually sit on the top-right hand side of your browser’s window.
+They are built using web technologies like html, css, js and so on.
+They can use the same APIs the browser provides to the web. 
+```
+---
+import { Split } from 'mdx-deck/layouts'
+
+![Thinking cat](images/why-cat.jpg)
+# Why do we use them?
+
+```notes
+Extensions customize the browsing experience in a variety of ways:
+```
+---
+# 🛠 
+# Integrate with other services
+
+```notes
+They can integrate with other services you use.
+```
+---
+### Pocket
+
+<ImageContainer 
+    src='https://duaw26jehqd4r.cloudfront.net/items/3K1p1V1c1F392K2y3O08/Screen%20Recording%202018-10-21%20at%2002.28%20PM.gif'
+    height='28rem'
+    width='48rem'
+/>
+
+Saves any page
+
+```notes
+For example, using Pocket extension you can save online write-ups and read them offline anytime you want
+```
+---
+# ⚙️ 
+# Modify an existing feature 
+# Create a new feature
+
+```notes
+They can modify the behavior of existing features or add new features to the browser. The feature could be something 
+in the user interface or a functional feature that manifests itself when a certain action is performed. 
+```
+---
+### Video Speed Controller
+
+import { ImageContainer } from './components/ImageContainer'
+
+<ImageContainer 
+    src='images/video-speed-contoller.png'
+    height='24rem'
+    width='36rem'
+/>
+
+Allows you to control speed of a video with quick shortcuts
+
+```notes
+An example for this use-case would be the Video Speed Controller extension. 
+It allows you to control the speed of any HTML5 video with quick shortcuts
+```
+---
+# ✏️
+# Modify the UI and page content
+
+```notes
+They can modify browser’s user interface by adding, removing, or modifying content. 
+```
+---
+import { Image } from 'mdx-deck'
+
+<Image src='images/momentum.png' />
+
+```notes
+I thought Quantum would be a good example to that. It changes the design of your new tab window.
+```
+---
+# 🚀
+# Add development tools
+
+```notes
+They can add development tools to the browser. You can enhance the built-in browser developer tools by extensions.
+```
+---
+<ImageContainer 
+    src='images/augury-heart.png'
+    height='36rem'
+    width='52rem'
+/>
+
+Enhances the built-in browser developer tools
+```notes
+Augury is a Google Chrome Dev Tool extension for debugging and visualizing Angular applications at runtime.
+```
+---
+# 👩🏻‍💻
+# Extension Development
+
+```notes
+Extensions are created using familiar web-based technologies—HTML, CSS, and JavaScript. 
+You can also use one of the modern frameworks to build your extension as long as you use a module-bundler like webpack. 
+Not only Extensions can take advantage of the same web APIs as JavaScript on a web page, 
+they also have access to their own set of JavaScript APIs which makes them very powerfull
+```
+---
+<ImageContainer
+    src='images/extension-development.png'
+    height='44rem'
+    width='58rem'
+/>
+
+```notes
+Every modern browser has their own extension API. The most popular one among all is Chrome's api which is also compatible with Firefox, Opera and Edge.
+Extensions written for Chrome will in most cases run in these browsers with just a few changes.
+```
+---
+# 🏛
+# Chrome Extension Architecture
+
+```notes
+Let's talk a little bit about extension architecture.
+An extension’s architecture will depend on its functionality, but many robust extensions will include multiple components:
+```
+---
+import { Appear } from 'mdx-deck'
+
+<ul>
+  <Appear>
+    <h1>manifest.json 💓</h1>
+    <h1>Popup UI 🙋🏻‍</h1>
+    <h1>Content Script 💪🏻</h1>
+    <h1>Background Script 🧠</h1>
+    <h1>Options Page</h1>
+  </Appear>
+</ul>
+
+```notes
+manifest.json: This is the only file that must be present in every extension. It bootstrap your extension and provide basic metadata such as extension’s name, version and the permissions it requires. 
+It also provides pointers to other files in the extension.
+
+Popup UI: The little window you see when clicking on the extension icon. It’s an html file with some css and optional js.
+
+Content Scripts: are arbitrary css and js that are injected into selected pages. They read and modify the DOM of web pages the browser visits. Content scripts can communicate with their parent extension by exchanging messages. 
+Unlike background scripts content scripts have limited access to Chrome's api.
+
+Background scripts: are long-running scripts that help you manage state and coordinate tasks across extension components. EXtension's business logic normally exist in here.
+
+Options page enables customization of the extension. It can be used to enable features and allow users to choose what functionality is relevant to their needs.
+```
+---
+## manifest.json
+```
+{
+    "name": "Catify Extension",
+    "description": "Random cat gifs on your browser",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "browser_action": {
+        "default_popup": "index.html"
+    },
+    "icons": { "128": "cat-icon.png" },
+    "permissions": ["tabs", "https://api.giphy.com/*"],
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "js": [ "script_bundle.js"]
+    }],
+    "web_accessible_resources": ["assets/*"]
+}
+```
+
+```notes
+here is a little code snippet that lays out the structure of manifest.json. You can see extenion's metadata being defined in here. Browser action field defines the popup ui.
+As popup ui The Ccntent script is also being initiated in here. If extension had a background script you would also see it being defined here as well. 
+```
+---
+# 💌
+# Message Passing
+
+```notes
+Message passing is an important concept in extension world
+```
+---
+#### Communication Between Pages
+
+<ImageContainer
+    src='images/message-passing.png'
+    height='32rem'
+    width='50rem'
+/>
+
+```notes
+Communication between extension's components is done by sending messages. Especially, Since content scripts
+run in the context of a web page and not the extension, they often need some way of communicating with the rest of the extension. 
+
+In message passing mechanism, Either side can listen for messages, and respond on the same channel. 
+
+There is an API for one-time requests and as well as one that allows you to have long-lived connections for exchanging multiple messages.
+
+It is also possible to send a message to another extension if you know its ID, which is referred as the cross-extension messages.
+
+I'd like to show you an example implementation of message passing from the catify extension I'll be demoing in a few minutes
+```
+---
+### Popup.js
+
+```
+chrome.tabs.query({
+        active: true,
+        currentWindow: true
+    }, (tabs) => {
+        chrome.tabs.sendMessage(tabs[0].id, {
+                action: 'getApiData',
+                message: request
+            }, (response) => {
+                console.log('Response received');
+            });
+    });
+```
+
+```notes
+This code snippet shows sending a request from popup.js to content script. 
+And I do a console log when a response from the content script is received.
+```
+---
+### content-script.js
+```
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        const result = processRequest(request);
+
+        if (!result) { return false; // no response }
+
+        result.then((value) => {
+            sendResponse({response: value});
+        }, (error) => {
+            sendResponse({ error: error.toString() });
+        });
+
+        return true; // signal that it will respond asyncronously
+    });
+```
+
+```notes
+On the receiving end, there is an event listener to handle the message.
+
+According to docs the onMessage event handler needs to return true if we want to respond asyncronously
+
+bahset bundan:
+Note that this is different from Google Chrome's extension system, which uses the chrome namespace instead 
+of browser, and which uses callbacks instead of promises for asynchronous functions. 
+As a porting aid, the Firefox implementation of WebExtensions APIs supports chrome and 
+callbacks as well as browser and promises. 
+Mozilla has also written a polyfill which enables code that uses browser and promises 
+to work unchanged in Chrome: https://github.com/mozilla/webextension-polyfill.
+```
+---
+# 🔍
+# Debugging
 ---
 
+<ImageContainer
+    src='popup_debugging.gif'
+    height='36rem'
+    width='64rem'
+/>
+
+#### 🔍 Popup
+
+```notes
+Content scripts use the current browser windows’ Developer Tools.
+
+Background script uses a custom Developer tools, accessible from your extensions page. 
+
+To debug the pop UI you simply need to right click on the ui and choose inspect. 
+
+Extension development can be a bit tricky when it comes to debug different parts of the application
+```
 ---
 
+<ImageContainer
+    src='background_page_debugging.gif'
+    height='36rem'
+    width='64rem'
+/>
+
+#### 🔍 Background Page
 ---
-# The end
+# 🎁
+# Publishing and Distribution
+
+```notes
+Chrome extensions are published and distributed through chrome web store
+```
+---
+## How to Publish Extensions 🚀
+
+<ul>
+  <Appear>
+    <p>Package your code into a zip file</p>
+    <p>Create a Chrome Web Store Developer account</p>
+    <p>Upload the zip file you've created to Chrome Web Store</p>
+    <p>Provide assets like images and a video to complement your branding</p>
+  </Appear>
+</ul>
+
+```notes
+To get the extension on the web store you need to:
+
+Package your code into a zip file
+
+Create a Chrome Web Store Developer account
+
+Upload your zip file as well as some assets like images and a youtube video to complement the branding of your extension.
+```
+---
+## Useful Links
+* https://developer.chrome.com/extensions/overview
+* https://developer.mozilla.org/en-US/Add-ons/WebExtensions/What_are_WebExtensions
+* https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Anatomy_of_a_WebExtension
+* https://checklyhq.com/blog/2018/08/creating-a-chrome-extension-in-2018-the-good-the-bad-and-the-meh/
+* https://github.com/turquoisemelon/catify-extension
+
+```notes
+here I included some useful links in case you'd like to play around with the extension api.
+```
+---
+## Extensions Included in the Talk
+
+<ImageContainer
+    src='images/pocket-icon.jpg'
+    height='5rem'
+    width='5rem'
+    isInline
+    link="https://chrome.google.com/webstore/detail/save-to-pocket/niloccemoadcdkdjlinkgdfekeahmflj?hl=en"
+    linkTitle="Pocket"
+/>
+
+<ImageContainer
+    src='images/video-speed-icon.png'
+    height='5rem'
+    width='5rem'
+    isInline
+    link="https://chrome.google.com/webstore/detail/video-speed-controller/nffaoalbilbmmfgbnbgppjihopabppdk?hl=en"
+    linkTitle="Video Speed Controller"
+/>
+
+<ImageContainer
+    src='images/momentum-icon.png'
+    height='5rem'
+    width='5rem'
+    isInline
+    link="https://chrome.google.com/webstore/detail/momentum/laookkfknpbbblfpciffpaejjkokdgca?hl=en"
+    linkTitle="Momentum"
+/>
+
+<ImageContainer
+    src='images/augury-icon.png'
+    height='4rem'
+    width='5rem'
+    isInline
+    link="https://chrome.google.com/webstore/detail/augury/elgalmkoelokbchhkhacckoklkejnhcd"
+    linkTitle="Augury"
+/>
+
+
+<ImageContainer
+    src='images/cat-icon.png'
+    height='5rem'
+    width='5rem'
+    isInline
+    link="https://github.com/turquoisemelon/catify-extension"
+    linkTitle="Catify"
+/>
+
+---
+# 👋🏻
+# Thank you!
+
+![twitter](images/twitter.png) [@trilingualmel](https://twitter.com/trilingualmel)
