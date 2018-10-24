@@ -1,4 +1,4 @@
-export { default as theme } from 'mdx-deck/themes'
+export { default as theme } from './theme.js'
 
 # Extensions, Tiny Apps on Your Browser
 
@@ -234,7 +234,7 @@ It is also possible to send a message to another extension if you know its ID, w
 I'd like to show you an example implementation of message passing from the catify extension I'll be demoing in a few minutes
 ```
 ---
-### Popup.js
+### popup.js
 
 ```
 chrome.tabs.query({
@@ -286,7 +286,7 @@ Mozilla has also written a polyfill which enables code that uses browser and pro
 to work unchanged in Chrome: https://github.com/mozilla/webextension-polyfill.
 ```
 ---
-# 🔍
+# 🕵🏻‍♀️
 # Debugging
 ---
 
@@ -326,14 +326,10 @@ Chrome extensions are published and distributed through chrome web store
 ---
 ## How to Publish Extensions 🚀
 
-<ul>
-  <Appear>
-    <p>Package your code into a zip file</p>
-    <p>Create a Chrome Web Store Developer account</p>
-    <p>Upload the zip file you've created to Chrome Web Store</p>
-    <p>Provide assets like images and a video to complement your branding</p>
-  </Appear>
-</ul>
+* 📦 Package your code into a zip file
+* 📂 Create a Chrome Web Store Developer account
+* ⬆️ Upload the zip file you've created to Chrome Web Store
+* 🔗 Provide assets like images and a video to complement your branding
 
 ```notes
 To get the extension on the web store you need to:
@@ -345,7 +341,7 @@ Create a Chrome Web Store Developer account
 Upload your zip file as well as some assets like images and a youtube video to complement the branding of your extension.
 ```
 ---
-## Useful Links
+## Useful Links 🔗
 * https://developer.chrome.com/extensions/overview
 * https://developer.mozilla.org/en-US/Add-ons/WebExtensions/What_are_WebExtensions
 * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Anatomy_of_a_WebExtension
@@ -408,4 +404,4 @@ here I included some useful links in case you'd like to play around with the ext
 # 👋🏻
 # Thank you!
 
-![twitter](images/twitter.png) [@trilingualmel](https://twitter.com/trilingualmel)
+![twitter](images/twitter.png)[@trilingualmel](https://twitter.com/trilingualmel)
