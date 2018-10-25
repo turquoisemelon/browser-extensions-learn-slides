@@ -161,9 +161,9 @@ import { Appear } from 'mdx-deck'
   <Appear>
     <h1>manifest.json 💓</h1>
     <h1>Popup UI 🙋🏻‍</h1>
-    <h1>Content Script 💪🏻</h1>
     <h1>Background Script 🧠</h1>
-    <h1>Options Page</h1>
+    <h1>Content Script 💪🏻</h1>
+    <h1>Options Page ⚙️</h1>
   </Appear>
 </ul>
 
@@ -173,10 +173,10 @@ It also provides pointers to other files in the extension.
 
 Popup UI: The little window you see when clicking on the extension icon. It’s an html file with some css and optional js.
 
+Background scripts: are long-running scripts that help you manage state and coordinate tasks across extension components. EXtension's business logic normally exist in here.
+
 Content Scripts: are arbitrary css and js that are injected into selected pages. They read and modify the DOM of web pages the browser visits. Content scripts can communicate with their parent extension by exchanging messages. 
 Unlike background scripts content scripts have limited access to Chrome's api.
-
-Background scripts: are long-running scripts that help you manage state and coordinate tasks across extension components. EXtension's business logic normally exist in here.
 
 Options page enables customization of the extension. It can be used to enable features and allow users to choose what functionality is relevant to their needs.
 ```
@@ -301,11 +301,8 @@ to work unchanged in Chrome: https://github.com/mozilla/webextension-polyfill.
 ```notes
 Content scripts use the current browser windows’ Developer Tools.
 
-Background script uses a custom Developer tools, accessible from your extensions page. 
-
 To debug the pop UI you simply need to right click on the ui and choose inspect. 
 
-Extension development can be a bit tricky when it comes to debug different parts of the application
 ```
 ---
 
@@ -316,6 +313,11 @@ Extension development can be a bit tricky when it comes to debug different parts
 />
 
 #### 🔍 Background Page
+
+```notes
+Background script uses a custom Developer tools, accessible from your extensions page. 
+Extension development can be a bit tricky when it comes to debug different parts of the application
+```
 ---
 # 🎁
 # Publishing and Distribution
@@ -401,7 +403,7 @@ here I included some useful links in case you'd like to play around with the ext
 />
 
 ---
-# 👋🏻
+# 🙏🏻
 # Thank you!
 
 ![twitter](images/twitter.png)[@trilingualmel](https://twitter.com/trilingualmel)
