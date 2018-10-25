@@ -1,39 +1,38 @@
 export { default as theme } from './theme.js'
 
-# Extensions, Tiny Apps on Your Browser
+# Extensions, Tiny Apps
+# on Your Browser
 
  ![twitter](images/twitter.png) [@trilingualmel](https://twitter.com/trilingualmel)
 
  [//]: # (Icons made by Pixel perfect from www.flaticon.com is licensed by http://creativecommons.org/licenses/by/3.0/)
 
 ```notes
-Hi, my name is Meltem. I’m a developer and Bridge grad. 
-Today, I’ll talk about Browser extensions and their inner workings. 
-After I give an overview of extension building, I'll demo an extension
-I built as a side project which brings over random cat gifs on your browser.
+Hi everyone. my name is Meltem. I work as a developer here. 
+In today's learn, I will talk about Browser extensions and things you need to know you want to develop of your own.
 ```
 ---
 # 😻
 # Demo time
 
 ```notes
-I will show you a fun extension side project I put together. 
+Before I get into the content though, I'd like to make a quick and fun demo of an extension I built for this talk.
+It's got lots of cats. Because cats are awesome~ 
 It's called catify extension and it displays random cat gifs right on your browser window anytime you want
 ```
 ---
-# What is a browser extension? 🤔
+#  🤔
+# What is a browser extension?
 
 ```notes
-Probably pretty much everyone who uses the web uses browser extensions. 
-Let's start with a quick refresher of what browser extensions actually are. 
-Extensions are mostly small programs that customize the browsing experience.
+Browser extensions are awesome because they make our browsing better and more efficient by customizing our browsers.
 ```
 ---
  ![extensions_showcase](https://duaw26jehqd4r.cloudfront.net/items/1W1q3m2d3g1o1o0L1z3l/Screen%20Recording%202018-10-20%20at%2011.31%20PM.gif)
 
 ```notes
+They are small apps built using web technologies like html, css, javascript.
 They usually sit on the top-right hand side of your browser’s window.
-They are built using web technologies like html, css, js and so on.
 They can use the same APIs the browser provides to the web. 
 ```
 ---
@@ -43,7 +42,7 @@ import { Split } from 'mdx-deck/layouts'
 # Why do we use them?
 
 ```notes
-Extensions customize the browsing experience in a variety of ways:
+Extensions can do pretty cool things on our browsers. Here are a few examples:
 ```
 ---
 # 🛠 
@@ -64,7 +63,7 @@ They can integrate with other services you use.
 Saves any page
 
 ```notes
-For example, using Pocket extension you can save online write-ups and read them offline anytime you want
+For example, using Pocket extension you can save online content to your pocket app to consume later
 ```
 ---
 # ⚙️ 
@@ -89,8 +88,7 @@ import { ImageContainer } from './components/ImageContainer'
 Allows you to control speed of a video with quick shortcuts
 
 ```notes
-An example for this use-case would be the Video Speed Controller extension. 
-It allows you to control the speed of any HTML5 video with quick shortcuts
+For example Video Speed Controller extension you can fast-forward videos with keyboard shortcuts
 ```
 ---
 # ✏️
@@ -105,7 +103,7 @@ import { Image } from 'mdx-deck'
 <Image src='images/momentum.png' />
 
 ```notes
-I thought Quantum would be a good example to that. It changes the design of your new tab window.
+Momentum would be a good example to that. It changes the design of your new tab window.
 ```
 ---
 # 🚀
@@ -123,7 +121,7 @@ They can add development tools to the browser. You can enhance the built-in brow
 
 Enhances the built-in browser developer tools
 ```notes
-Augury is a Google Chrome Dev Tool extension for debugging and visualizing Angular applications at runtime.
+Augury is a Chrome Dev Tool extension for debugging Angular applications.
 ```
 ---
 # 👩🏻‍💻
@@ -181,7 +179,7 @@ Unlike background scripts content scripts have limited access to Chrome's api.
 Options page enables customization of the extension. It can be used to enable features and allow users to choose what functionality is relevant to their needs.
 ```
 ---
-## manifest.json
+### manifest.json
 ```
 {
     "name": "Catify Extension",
@@ -213,7 +211,9 @@ As popup ui The Ccntent script is also being initiated in here. If extension had
 Message passing is an important concept in extension world
 ```
 ---
-#### Communication Between Pages
+### Communication Between Pages
+
+<br/>
 
 <ImageContainer
     src='images/message-passing.png'
@@ -407,3 +407,6 @@ here I included some useful links in case you'd like to play around with the ext
 # Thank you!
 
 ![twitter](images/twitter.png)[@trilingualmel](https://twitter.com/trilingualmel)
+
+---
+![test] (https://media.giphy.com/media/MWSRkVoNaC30A/giphy.gif)
