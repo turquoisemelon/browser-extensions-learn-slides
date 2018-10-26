@@ -25,7 +25,8 @@ It's called catify extension and it displays random cat gifs right on your brows
 # What is a browser extension?
 
 ```notes
-Browser extensions are awesome because they make our browsing better and more efficient by customizing our browsers.
+Browser extensions are awesome not only because they can bring over cat gifs onto a browser window, but
+they make our browsing experience better and more efficient by customizing them.
 ```
 ---
  ![extensions_showcase](https://duaw26jehqd4r.cloudfront.net/items/1W1q3m2d3g1o1o0L1z3l/Screen%20Recording%202018-10-20%20at%2011.31%20PM.gif)
@@ -42,7 +43,7 @@ import { Split } from 'mdx-deck/layouts'
 # Why do we use them?
 
 ```notes
-Extensions can do pretty cool things on our browsers. Here are a few examples:
+Extensions can do pretty cool things on the browser. Here are a few examples:
 ```
 ---
 # 🛠 
@@ -63,7 +64,7 @@ They can integrate with other services you use.
 Saves any page
 
 ```notes
-For example, using Pocket extension you can save online content to your pocket app to consume later
+For example, using Pocket extension you can save online content to your pocket app to consume online or offline later
 ```
 ---
 # ⚙️ 
@@ -110,7 +111,7 @@ Momentum would be a good example to that. It changes the design of your new tab 
 # Add development tools
 
 ```notes
-They can add development tools to the browser. You can enhance the built-in browser developer tools by extensions.
+They can enhance the built-in browser developer tools.
 ```
 ---
 <ImageContainer 
@@ -128,9 +129,15 @@ Augury is a Chrome Dev Tool extension for debugging Angular applications.
 # Extension Development
 
 ```notes
-Extensions are created using familiar web-based technologies—HTML, CSS, and JavaScript. 
-You can also use one of the modern frameworks to build your extension as long as you use a module-bundler like webpack. 
-Not only Extensions can take advantage of the same web APIs as JavaScript on a web page, 
+now that we have a better understanding of type of things that extensions can do, 
+let's talk a bit about Extensions development. As I mentioned earlier,
+
+they are created using web-based technologies—HTML, CSS, and JavaScript. 
+
+You can also use one of the modern frameworks to build your extension as long as you use 
+a module-bundler like webpack. 
+
+Not only Extensions can take advantage of the web APIs, 
 they also have access to their own set of JavaScript APIs which makes them very powerfull
 ```
 ---
@@ -141,16 +148,19 @@ they also have access to their own set of JavaScript APIs which makes them very 
 />
 
 ```notes
-Every modern browser has their own extension API. The most popular one among all is Chrome's api which is also compatible with Firefox, Opera and Edge.
-Extensions written for Chrome will in most cases run in these browsers with just a few changes.
+Every modern browser has their own extension API. The most popular one among all is Chrome's api which is also compatible with Firefox, 
+Opera and Edge. Extensions written for Chrome will in most cases run in these browsers with just a few changes. Firefox's api is also
+compatible with Chrome. So if you want to develop your extension on Firefox but wanna run in Chrome. You can do that.
+
+In the rest of my talk though, I will focus on Chrome's extension api.
 ```
 ---
 # 🏛
 # Chrome Extension Architecture
 
 ```notes
-Let's talk a little bit about extension architecture.
-An extension’s architecture will depend on its functionality, but many robust extensions will include multiple components:
+Before developing an extension, It's important to understand an extension's architecture 
+which is composed of multiple components:
 ```
 ---
 import { Appear } from 'mdx-deck'
@@ -166,14 +176,14 @@ import { Appear } from 'mdx-deck'
 </ul>
 
 ```notes
-manifest.json: This is the only file that must be present in every extension. It bootstrap your extension and provide basic metadata such as extension’s name, version and the permissions it requires. 
-It also provides pointers to other files in the extension.
+manifest.json: This is the only file that must be present in every extension. It bootstraps the extension and provide basic metadata such as extension’s name, version and the permissions it requires. It also provides pointers to other files in the extension. It's like the heart of the extension
 
-Popup UI: The little window you see when clicking on the extension icon. It’s an html file with some css and optional js.
+Popup UI: The little window you see when clicking on the extension icon. It's the UI interface of the extension. It’s an html file with some css and optional js.
 
-Background scripts: are long-running scripts that help you manage state and coordinate tasks across extension components. EXtension's business logic normally exist in here.
+Background scripts: are long-running scripts that help you manage state and coordinate tasks across extension components. They are like the brain of the extension and all “hard” business logic should go in here as much as possible.
+They can use the standard DOM APIs, as well as the extension api. They can make network requests and can load content scripts into the web pages. They don't have direct acces to web pages but can communicate with content scripts using a message-passing API.
 
-Content Scripts: are arbitrary css and js that are injected into selected pages. They read and modify the DOM of web pages the browser visits. Content scripts can communicate with their parent extension by exchanging messages. 
+Content Scripts: are js files with optional css that are injected into selected pages. They read and modify the DOM of web pages the browser visits. They are like the hands of the extensions. Content scripts can communicate with their parent extension by exchanging messages. 
 Unlike background scripts content scripts have limited access to Chrome's api.
 
 Options page enables customization of the extension. It can be used to enable features and allow users to choose what functionality is relevant to their needs.
@@ -200,15 +210,19 @@ Options page enables customization of the extension. It can be used to enable f
 ```
 
 ```notes
-here is a little code snippet that lays out the structure of manifest.json. You can see extenion's metadata being defined in here. Browser action field defines the popup ui.
-As popup ui The Ccntent script is also being initiated in here. If extension had a background script you would also see it being defined here as well. 
+here is a little code snippet that lays out the structure of a manifest file. It's from the catify extension I showed 
+you earlier in the talk. You can see extension's metadata as well as its icon being defined in here. Browser action field 
+defines the popup ui. Similar to popup ui the Content script is being initiated in here as well. Content script points to
+a bundled js file and includes urls that it is allowed to inject the script to. In this case, it can get injected to all the webpages.
+If extension had a background script you would also include it in this file under "background" key. 
+web_accessible_resources include things like other images in your extension and it makes the content accessible to web pages and content scripts.
 ```
 ---
 # 💌
 # Message Passing
 
 ```notes
-Message passing is an important concept in extension world
+Message passing is an important concept in the browser extension world
 ```
 ---
 ### Communication Between Pages
@@ -229,9 +243,9 @@ In message passing mechanism, Either side can listen for messages, and respond o
 
 There is an API for one-time requests and as well as one that allows you to have long-lived connections for exchanging multiple messages.
 
-It is also possible to send a message to another extension if you know its ID, which is referred as the cross-extension messages.
+It is also possible to send a message to another extension if you know its ID, which is referred as the cross-extension messaging.
 
-I'd like to show you an example implementation of message passing from the catify extension I'll be demoing in a few minutes
+I'd like to show you an example implementation of message passing from the catify extension.
 ```
 ---
 ### popup.js
@@ -251,8 +265,11 @@ chrome.tabs.query({
 ```
 
 ```notes
-This code snippet shows sending a request from popup.js to content script. 
-And I do a console log when a response from the content script is received.
+This code snippet shows sending a request from extension's popup to its content script. The request is an object
+containing arbitrarely defined fields, and information assigned to them.
+Here I have included a string that identifies my request as well as the data that I get from the giphy api
+
+And the api gives you a callback that gets fired when a response from the other side is received.
 ```
 ---
 ### content-script.js
@@ -273,21 +290,33 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 ```
 
 ```notes
-On the receiving end, there is an event listener to handle the message.
+On the receiving end, there is an event listener to handle the message. In the case of catify extension,
+The data I receive in the handler is the gif url. Content script then injects the url onto the current page.
 
-According to docs the onMessage event handler needs to return true if we want to respond asyncronously
+You can also send a response back to the sender. According to docs the onMessage 
+event handler needs to return true if we want to respond asyncronously.
 
-bahset bundan:
-Note that this is different from Google Chrome's extension system, which uses the chrome namespace instead 
-of browser, and which uses callbacks instead of promises for asynchronous functions. 
-As a porting aid, the Firefox implementation of WebExtensions APIs supports chrome and 
-callbacks as well as browser and promises. 
-Mozilla has also written a polyfill which enables code that uses browser and promises 
-to work unchanged in Chrome: https://github.com/mozilla/webextension-polyfill.
 ```
 ---
 # 🕵🏻‍♀️
 # Debugging
+
+```notes
+you can locally run and debug your extensions without having to go through the publishing process.
+```
+---
+![debugging_gif] (https://duaw26jehqd4r.cloudfront.net/items/3p181z420T0a0w2f3s3C/Screen%20Recording%202018-10-25%20at%2011.13%20PM.gif)
+
+#### chrome://extensions -> Developer mode on -> Load unpacked -> 🎉
+
+```notes
+To run your extension locally, you need to go to the extensions page, turn on the developer mode if it's not 
+already turned on and load your extension folder using the load unpacked button on the top left side of the page.
+
+You can see a preview of your extension once it is loaded. You should come back to this page refresh your extension
+every time you make a change in your code
+
+```
 ---
 
 <ImageContainer
@@ -299,6 +328,8 @@ to work unchanged in Chrome: https://github.com/mozilla/webextension-polyfill.
 #### 🔍 Popup
 
 ```notes
+Debugging extensions can be a bit tricky as its components lives in different contexes.
+
 Content scripts use the current browser windows’ Developer Tools.
 
 To debug the pop UI you simply need to right click on the ui and choose inspect. 
@@ -315,16 +346,12 @@ To debug the pop UI you simply need to right click on the ui and choose inspect.
 #### 🔍 Background Page
 
 ```notes
-Background script uses a custom Developer tools, accessible from your extensions page. 
-Extension development can be a bit tricky when it comes to debug different parts of the application
+If your extension has a background script, its dev tools page can be accessed from your extensions page. 
 ```
 ---
 # 🎁
 # Publishing and Distribution
 
-```notes
-Chrome extensions are published and distributed through chrome web store
-```
 ---
 ## How to Publish Extensions 🚀
 
@@ -334,13 +361,13 @@ Chrome extensions are published and distributed through chrome web store
 * 🔗 Provide assets like images and a video to complement your branding
 
 ```notes
-To get the extension on the web store you need to:
+Let's say you developed your chrome extension, and it's ready to go to users. Here are the steps you can take to publish your extension.
 
 Package your code into a zip file
 
 Create a Chrome Web Store Developer account
 
-Upload your zip file as well as some assets like images and a youtube video to complement the branding of your extension.
+Upload your zip file as well as some assets like images and a youtube video if you want to complement the branding of your extension.
 ```
 ---
 ## Useful Links 🔗
@@ -401,6 +428,10 @@ here I included some useful links in case you'd like to play around with the ext
     link="https://github.com/turquoisemelon/catify-extension"
     linkTitle="Catify"
 />
+
+```notes
+Here is the list of the extensions I mentioned in the beginning of th talk.
+```
 
 ---
 # 🙏🏻
